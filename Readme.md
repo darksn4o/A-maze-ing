@@ -16,7 +16,7 @@ Uma venv (ambiente virtual) é um espaço isolado onde podes instalar e gerir de
  > Include docstrings in functions and classes following PEP 257 (e.g., Google or NumPy style) to document purpose, parameters, and returns.
 
 
-#### tempo gasto no projeto >
+#### tempo gasto no projeto > 1H
 
 ### Dois colaboradore 
 ```
