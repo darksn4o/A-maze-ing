@@ -21,7 +21,7 @@ Uma venv (ambiente virtual) é um espaço isolado onde podes instalar e gerir de
 ### Dois colaboradore 
 ```
 =>Gnogueir
-=>
+=>tsimao-g
 ```
 
 

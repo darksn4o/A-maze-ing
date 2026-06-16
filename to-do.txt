@@ -1,0 +1,8 @@
+(docstrings comentadas dont forget)
+
+generator:
+- implementar um algoritmo de geração
+- implemental um algoritmo para resolver
+- função para tornar o perfect maze imperfect (provavelmente uma função para fazer loops)
+
+(já detalho)
