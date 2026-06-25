@@ -1,0 +1,11 @@
+#base rules  
+WIDTH       = 20
+HEIGHT      = 20
+# WIDTH representa X e HEIGHT  representa Y
+# mapa 2D
+ENTRY       = 2,2
+EXIT        = 18 , 17
+OUTPUT_FILE = maze.txt
+PERFECT     = True
+# SEED is optional; set it for reproducible mazes
+SEED        = 67
