@@ -1,50 +1,60 @@
-PYTHON     := python3
-VENV_DIR   := .venv
-PIP        := $(VENV_DIR)/bin/pip
-PYTHON_ENV := $(VENV_DIR)/bin/python
+# A-Maze-ing -- automation of common tasks.
+# A virtual environment is created in .venv and all tools live inside it,
+# keeping the host system clean (delete .venv with `make fclean`).
 
-.PHONY: all venv install activate deactivate run clean 
+VENV    := .venv
+PYTHON  := $(VENV)/bin/python
+PIP     := $(VENV)/bin/pip
+CONFIG  := config.txt
 
-all: venv
+.DEFAULT_GOAL := run
 
-## Cria a virtual environment
-venv:
-	@echo "Loading $(VENV_DIR)..."
-	$(PYTHON) -m venv $(VENV_DIR)
-	@echo "venv Created!"
-
-## Instala dependências do requirements.txt
-install: venv
-	@echo "Downloading dependencs..."
+$(VENV):
+	python3 -m venv $(VENV)
 	$(PIP) install --upgrade pip
+
+## install: create the venv and install dev dependencies
+install: $(VENV)
 	$(PIP) install -r requirements.txt
-	@echo "dependencs installed ready to go!"
+	$(PIP) install -e .
 
-## Mostra o comando para entrar na venv
-activate:
-	@echo "Run this command to activate the venv:"
-	@echo "source $(VENV_DIR)/bin/activate"
+## run: generate a maze from $(CONFIG) and open the display
+run: install
+	$(PYTHON) a_maze_ing.py $(CONFIG)
 
-## Mostra o comando para sair da venv
-deactivate:
-	@echo "Run this command to deactivate the venv:"
-	@echo "deactivate"
+## debug: run the main script under pdb
+debug: install
+	$(PYTHON) -m pdb a_maze_ing.py $(CONFIG)
 
-## Corre o projecto (ajusta o main.py ao teu ficheiro principal)
-run: venv
-	$(PYTHON_ENV) main.py
+## test: run the unit test-suite
+test: install
+	$(PYTHON) -m pytest -q
 
-## Pergunta se quer limpar o terminal
-clear_bash:
-	@read -p "Do you want to clear the terminal? [y/N]: " ans; \
-	if [ "$$ans" = "y" ] || [ "$$ans" = "Y" ]; then \
-		clear; \
-	fi
+## lint: flake8 + mypy (mandatory checks)
+lint: install
+	$(VENV)/bin/flake8 .
+	$(VENV)/bin/mypy . --warn-return-any --warn-unused-ignores \
+		--ignore-missing-imports --disallow-untyped-defs --check-untyped-defs
 
-## Limpa a venv
-clean: clear_bash
-	clear
-	@echo "Removing $(VENV_DIR)..."
-	rm -rf $(VENV_DIR)
-	@echo "All done!"
+## lint-strict: flake8 + mypy in strict mode (optional, stronger)
+lint-strict: install
+	$(VENV)/bin/flake8 .
+	$(VENV)/bin/mypy . --strict
 
+## build: build the reusable mazegen package (.tar.gz and .whl)
+build: install
+	$(PIP) install --upgrade build
+	$(PYTHON) -m build
+
+## clean: remove caches and Python artifacts
+clean:
+	rm -rf __pycache__ */__pycache__ .mypy_cache .pytest_cache
+	rm -rf build dist *.egg-info
+	find . -name '*.pyc' -delete
+
+## fclean: clean + remove the virtual environment and generated output
+fclean: clean
+	rm -rf $(VENV)
+	rm -f maze.txt
+
+.PHONY: install run debug test lint lint-strict build clean fclean

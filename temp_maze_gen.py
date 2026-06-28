@@ -1,1 +1,0 @@
-#ficheiro temporário para o parse

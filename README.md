@@ -25,7 +25,7 @@ that can be installed with `pip` and imported by any other project.
 
 ## Table of contents
 
-- [Quick start](#quick-start)
+- [Instructions](#instructions)
 - [Behaviour](#behaviour) — *what the program does*
 - [Logic](#logic) — *how the program works inside*
 - [Configuration file format](#configuration-file-format)
@@ -37,7 +37,7 @@ that can be installed with `pip` and imported by any other project.
 
 ---
 
-## Quick start
+## Instructions
 
 ```bash
 make install          # create .venv and install tooling + the mazegen package
@@ -46,8 +46,17 @@ make run              # generate from config.txt and open the display
 python3 a_maze_ing.py config.txt
 ```
 
-Other Make targets: `make test`, `make lint`, `make lint-strict`,
-`make debug`, `make build`, `make clean`, `make fclean`.
+Other Make targets:
+
+| Target | What it does |
+|---|---|
+| `make debug` | Run under `pdb` (Python's built-in debugger) for step-by-step inspection |
+| `make test` | Run the pytest suite |
+| `make lint` | Run `flake8` + `mypy` (mandatory checks) |
+| `make lint-strict` | Run `mypy --strict` (stronger optional checks) |
+| `make build` | Build the `mazegen` package into `dist/` (`.whl` and `.tar.gz`) |
+| `make clean` | Remove caches and Python artifacts |
+| `make fclean` | `clean` + remove the `.venv` virtual environment |
 
 Requires **Python 3.10+**.
 
@@ -309,11 +318,13 @@ maze.generate()
 ├── pyproject.toml       # builds the mazegen-* package
 ├── Makefile             # install / run / debug / lint / test / build / clean
 ├── requirements.txt     # dev tooling (flake8, mypy, pytest, build)
-├── app/                 # application layer (not part of the package)
-│   ├── config.py        #   parse & validate the config file
-│   ├── output.py        #   serialize a maze to the output format
-│   └── display.py       #   interactive terminal rendering
-└── tests/               # pytest suite (not graded)
+├── README.md
+├── .gitignore
+└── app/                 # application layer (not part of the package)
+    ├── __init__.py      #   marks app/ as a Python package (enables imports)
+    ├── config.py        #   parse & validate the config file
+    ├── output.py        #   serialize a maze to the output format
+    └── display.py       #   interactive terminal rendering
 ```
 
 ---
@@ -324,8 +335,8 @@ maze.generate()
 
 | Member     | Focus                                                       |
 |------------|-------------------------------------------------------------|
-| gnogueir   | Generation & solving logic (`mazegen.py`), packaging        |
-| tsimao-g   | Config parsing, output format, terminal display, tests      |
+| tsimao-g   | Generation & solving logic (`mazegen.py`), packaging        |
+| gnogueir   | Config parsing, output format, terminal display, tests      |
 
 Both members reviewed each other's code and walked through the algorithms
 together before the defence.
