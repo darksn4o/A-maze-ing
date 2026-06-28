@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mazegen"
+version = "1.0.0"
+description = "A small, dependency-free, reusable maze generator."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "42 students" }]
+keywords = ["maze", "generator", "backtracker", "prim", "42"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Topic :: Games/Entertainment :: Puzzle Games",
+]
+
+[project.urls]
+Homepage = "https://github.com/42-student/a-maze-ing"
+
+# Only the reusable single-file module ships in the package; the application
+# layer (a_maze_ing.py, app/, tests/) is intentionally excluded.
+[tool.setuptools]
+py-modules = ["mazegen"]
+
+[tool.mypy]
+python_version = "3.10"
+exclude = "(^\\.venv/|/build/|/dist/)"
+warn_return_any = true
+warn_unused_ignores = true
+ignore_missing_imports = true
+disallow_untyped_defs = true
+check_untyped_defs = true
+
+[tool.flake8]
+max-line-length = 79
